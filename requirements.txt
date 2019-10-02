@@ -1,0 +1,8 @@
+# Required modules for Linting and Testing on Travis-CI
+pytest
+pytest-cov
+pycodestyle
+pylint
+moto
+yamllint
+codecov
