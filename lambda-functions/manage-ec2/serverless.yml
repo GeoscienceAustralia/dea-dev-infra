@@ -39,6 +39,16 @@ provider:
         - "ec2:Stop*"
       Resource:
         - "arn:aws:ec2:#{AWS::Region}:#{AWS::AccountId}:instance/*"
+    - Effect: "Allow"
+      Action:
+        - "kms:CreateGrant"
+        - "kms:Encrypt"
+        - "kms:Decrypt"
+        - "kms:ReEncrypt*"
+        - "kms:GenerateDataKey*"
+        - "kms:DescribeKey"
+      Resource:
+        - "arn:aws:kms:#{AWS::Region}:#{AWS::AccountId}:key/*"
   environment:
     SCHEDULE_TAG: 'stopAtNight'
     SCHEDULE_START_TIME: '07:00'
