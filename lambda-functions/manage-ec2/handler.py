@@ -1,6 +1,7 @@
 import json
 import logging
 import boto3
+from botocore.exceptions import ClientError
 import os
 from datetime import datetime
 from dateutil.tz import tz
@@ -57,7 +58,13 @@ def handler(event, context):
 
     if _time_in_range(start_time, stop_time, now):
         LOG.info("Starting instance: {}".format(','.join(instance_ids)))
-        ec2.start_instances(InstanceIds=instance_ids)
+        try:
+            ec2.start_instances(InstanceIds=instance_ids)
+        except ClientError as e:
+            LOG.error(e)
     else:
         LOG.info("Stopping instance: {}".format(','.join(instance_ids)))
-        ec2.stop_instances(InstanceIds=instance_ids)
+        try:
+            ec2.stop_instances(InstanceIds=instance_ids)
+        except ClientError as e:
+            LOG.error(e)

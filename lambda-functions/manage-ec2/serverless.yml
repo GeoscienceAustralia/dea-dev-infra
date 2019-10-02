@@ -41,7 +41,7 @@ provider:
         - "arn:aws:ec2:#{AWS::Region}:#{AWS::AccountId}:instance/*"
   environment:
     SCHEDULE_TAG: 'stopAtNight'
-    SCHEDULE_START_TIME: '06:00'
+    SCHEDULE_START_TIME: '07:00'
     SCHEDULE_STOP_TIME: '18:00'
     TIME_ZONE: 'Australia/Sydney'
 
