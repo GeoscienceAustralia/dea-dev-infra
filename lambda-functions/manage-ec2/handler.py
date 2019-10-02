@@ -12,6 +12,7 @@ LOG.setLevel(logging.INFO)
 REGION = 'ap-southeast-2'
 TIME_ZONE = tz.gettz(os.environ.get('TIME_ZONE'))
 
+
 def _time_in_range(start, end, x):
     """
     Returns true if x is in the time range (start, end)
@@ -21,6 +22,7 @@ def _time_in_range(start, end, x):
         return start <= x <= end
     else:
         return start <= x or x <= end
+
 
 def handler(event, context):
     """
@@ -41,7 +43,7 @@ def handler(event, context):
     stop_time = datetime.strptime(stop_time, '%H:%M').time()
     LOG.info("Start Time: {0}, Stop Time: {1}".format(start_time, stop_time))
 
-    instances=[
+    instances = [
         {
             'Name': 'tag:' + os.environ.get('SCHEDULE_TAG'),
             'Values': ['true']
