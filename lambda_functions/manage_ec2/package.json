@@ -4,7 +4,7 @@
   "description": "Manage EC2 instance - schedule start-stop",
   "main": "handler.py",
   "scripts": {
-    "test": "echo 'test here!'"
+    "test": "python -m pytest --cov"
   },
   "author": "Geoscience Australia",
   "license": "Apache 2",

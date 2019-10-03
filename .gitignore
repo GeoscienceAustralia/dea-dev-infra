@@ -13,6 +13,7 @@ terraform.tfstate*
 node_modules
 jspm_packages
 
+.coverage
 package-lock.json
 
 # Serverless directories

@@ -3,16 +3,16 @@
 
 set -eu
 set -x
-#{
-#    readarray -t PY_FILES < <(find lambda_functions ! -path '*node_modules*' ! -path '*.serverless*' -name '*.py')
-#} &> /dev/null
-#
-### Lint and formatting check of all python files in lambdas
-#pycodestyle "${PY_FILES[@]}"
-#pylint -j 2 --reports no "${PY_FILES[@]}"
-#
-## Lint all YAML files
-#find . \( -iname '*.yaml' -o -iname '*.yml' \) ! -path '*node_modules*' -print0 | xargs -0 yamllint
+{
+    readarray -t PY_FILES < <(find lambda_functions ! -path '*node_modules*' ! -path '*.serverless*' -name '*.py')
+} &> /dev/null
+
+# Lint and formatting check of all python files in lambdas
+pycodestyle "${PY_FILES[@]}"
+pylint -j 2 --reports no "${PY_FILES[@]}"
+
+# Lint all YAML files
+find . \( -iname '*.yaml' -o -iname '*.yml' \) ! -path '*node_modules*' -print0 | xargs -0 yamllint
 
 # Check each Serverless AWS lambda function
 for lambda_dir in "$PWD"/lambda_functions/*
