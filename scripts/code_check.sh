@@ -4,7 +4,7 @@
 set -eu
 set -x
 {
-    readarray -t PY_FILES < <(find lambda_functions ! -path '*node_modules*' ! -path '*.serverless*' -name '*.py')
+    readarray -t PY_FILES < <(find lambda_functions ! -name 'test_*.py' ! -path '*node_modules*' ! -path '*.serverless*' -name '*.py')
 } &> /dev/null
 
 # Lint and formatting check of all python files in lambdas
