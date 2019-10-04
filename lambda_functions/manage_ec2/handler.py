@@ -74,4 +74,3 @@ def handler(event, context):
     schedule_tag = os.getenv('SCHEDULE_TAG')
 
     _schedule_start_stop_instances(schedule_tag, start_time, stop_time, now)
-
