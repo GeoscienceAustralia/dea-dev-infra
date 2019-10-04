@@ -1,4 +1,4 @@
-from lambda_functions.manage_ec2.handler import handler, _time_in_range, _schedule_start_stop_instances
+from handler import handler, _time_in_range, _schedule_start_stop_instances
 from unittest import TestCase, mock
 from datetime import datetime
 from moto import mock_ec2
@@ -22,7 +22,7 @@ class TestLambda(TestCase):
 
     def test_lambda_handler(self):
         event = {}
-        with mock.patch('lambda_functions.manage_ec2.handler._schedule_start_stop_instances') as mock_schedule_start_stop_instances:
+        with mock.patch('handler._schedule_start_stop_instances') as mock_schedule_start_stop_instances:
             handler(event, None)
             mock_schedule_start_stop_instances.assert_called_once()
 
