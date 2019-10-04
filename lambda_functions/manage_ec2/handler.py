@@ -24,28 +24,12 @@ def _time_in_range(start, end, x):
         return start <= x or x <= end
 
 
-def handler(event, context):
-    """
-    This function finds instances tagged with SCHEDULE_TAG.
-    It will then power on / off each instance based on SCHEDULE_START_TIME and SCHEDULE_STOP_TIME provided.
-    """
-
-    LOG.info("Received event: %s", json.dumps(event, indent=2))
-
+def _schedule_start_stop_instances(schedule_tag, start_time, stop_time, now):
     ec2 = boto3.client('ec2', region_name=REGION)
-
-    now = datetime.now(tz=TIME_ZONE).time()
-    LOG.info('Current time is %s', now)
-
-    start_time = os.environ.get('SCHEDULE_START_TIME')
-    start_time = datetime.strptime(start_time, '%H:%M').time()
-    stop_time = os.environ.get('SCHEDULE_STOP_TIME')
-    stop_time = datetime.strptime(stop_time, '%H:%M').time()
-    LOG.info("Start Time: %s, Stop Time: %s", start_time, stop_time)
 
     instances = [
         {
-            'Name': 'tag:' + os.environ.get('SCHEDULE_TAG'),
+            'Name': 'tag:' + schedule_tag,
             'Values': ['true']
         },
     ]
@@ -62,11 +46,32 @@ def handler(event, context):
         LOG.info("Starting instance: %s", (','.join(instance_ids)))
         try:
             ec2.start_instances(InstanceIds=instance_ids)
+            return 'starting'
         except ClientError as e:
             LOG.error(e)
     else:
         LOG.info("Stopping instance: %s", (','.join(instance_ids)))
         try:
             ec2.stop_instances(InstanceIds=instance_ids)
+            return 'stopping'
         except ClientError as e:
             LOG.error(e)
+
+
+def handler(event, context):
+    """
+    This function finds instances tagged with SCHEDULE_TAG.
+    It will then power on / off each instance based on SCHEDULE_START_TIME and SCHEDULE_STOP_TIME provided.
+    """
+
+    LOG.info("Received event: %s", json.dumps(event, indent=2))
+
+    now = datetime.now(tz=TIME_ZONE).time()
+    start_time = datetime.strptime(os.getenv('SCHEDULE_STOP_TIME'), '%H:%M').time()
+    stop_time = datetime.strptime(os.getenv('SCHEDULE_STOP_TIME'), '%H:%M').time()
+    LOG.info("Current time: %s, Start Time: %s, Stop Time: %s", now, start_time, stop_time)
+
+    schedule_tag = os.getenv('SCHEDULE_TAG')
+
+    _schedule_start_stop_instances(schedule_tag, start_time, stop_time, now)
+
