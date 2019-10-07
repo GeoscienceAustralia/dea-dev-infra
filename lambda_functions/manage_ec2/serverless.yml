@@ -4,6 +4,11 @@ plugins:
   - serverless-python-requirements
   - serverless-pseudo-parameters
 
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  profiles:
+    dev: devProfile
+
 package:
   exclude:
     - node_modules/**
@@ -21,6 +26,7 @@ provider:
   timeout: 60  # 60 seconds. Default is 6 seconds
   memorySize: 128  # in MB, default is 1024
   stage: dev
+  profile: ${self:custom.profiles.${self:custom.stage}}
   region: ap-southeast-2
   iamRoleStatements:
     - Effect: "Allow"
