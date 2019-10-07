@@ -28,7 +28,7 @@ do
 
     # Attempt to package the lambda
     echo "writing temporary serverless artifacts to ${_TMP}"
-    serverless package -s dev -p "${_TMP}"  # test prod setting
+    serverless package -p "${_TMP}"  # test prod setting
     _RET=$?
 
     # Cleanup test directory

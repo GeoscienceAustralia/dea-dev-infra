@@ -17,11 +17,7 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - npm install serverless
-  # Configure serverless AWS custom profile settings.
-  # AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_DEFAULT_REGION are expected to be
-  # configured in travis project web settings
-  - serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY --profile dea-dev --overwrite
+  - npm install -g serverless
   - ./scripts/code_check.sh
 
 after_success:
@@ -34,7 +30,10 @@ deploy_manage_ec2:
   # Serverless deploy to dev environment after merging to production branch
   - provider: script
     script:
-      - npm install serverless
+      - npm install -g serverless
+      # Configure serverless AWS custom profile settings.
+      # AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_DEFAULT_REGION are expected to be
+      # configured in travis project web settings
       - serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY --profile dea-dev --overwrite
       - cd lambda_functions/manage_ec2/ && npm install
       - serverless deploy -v --stage dev
