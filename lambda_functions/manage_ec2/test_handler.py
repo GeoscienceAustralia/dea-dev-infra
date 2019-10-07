@@ -1,5 +1,6 @@
 from handler import handler, _time_in_range, _schedule_start_stop_instances
 from unittest import TestCase, mock
+from unittest.mock import ANY
 from datetime import datetime
 from moto import mock_ec2
 import boto3
@@ -24,7 +25,7 @@ class TestLambda(TestCase):
         event = {}
         with mock.patch('handler._schedule_start_stop_instances') as mock_schedule_start_stop_instances:
             handler(event, None)
-            mock_schedule_start_stop_instances.assert_called_once()
+            mock_schedule_start_stop_instances.assert_called_with(self.schedule_tag, self.start_time, self.stop_time, ANY)
 
     @mock_ec2
     def test_schedule_start_stop_instances_start_instances_when_current_time_in_time_range(self):

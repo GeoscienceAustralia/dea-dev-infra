@@ -67,7 +67,7 @@ def handler(event, context):
     LOG.info("Received event: %s", json.dumps(event, indent=2))
 
     now = datetime.now(tz=TIME_ZONE).time()
-    start_time = datetime.strptime(os.getenv('SCHEDULE_STOP_TIME'), '%H:%M').time()
+    start_time = datetime.strptime(os.getenv('SCHEDULE_START_TIME'), '%H:%M').time()
     stop_time = datetime.strptime(os.getenv('SCHEDULE_STOP_TIME'), '%H:%M').time()
     LOG.info("Current time: %s, Start Time: %s, Stop Time: %s", now, start_time, stop_time)
 
