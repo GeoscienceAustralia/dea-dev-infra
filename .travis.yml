@@ -34,4 +34,4 @@ deploy:
     script: ./scripts/deploy_manage_ec2.sh
     skip_cleanup: true  # Don't re-run the tests
     on:
-      branch: feature/schedule-start-stop
+      branch: master
