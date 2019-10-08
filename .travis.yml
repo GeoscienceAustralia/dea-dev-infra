@@ -19,18 +19,21 @@ install:
 script:
   - npm install -g serverless
   - ./scripts/code_check.sh
+  - serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY --profile devProfile --overwrite
 
 after_success:
   - codecov
 
 before_deploy:
   - npm --version
-  - npm install -g serverless
+  - sls --version
 
 deploy:
   # Serverless deploy to dev environment after merging to master branch
   - provider: script
-    script: ./script/deploy_manage_ec2.sh
+    script:
+      - cd lambda_functions/manage_ec2/ && npm install
+      - serverless deploy -v -s dev
     skip_cleanup: true  # Don't re-run the tests
     on:
       branch: feature/schedule-start-stop
