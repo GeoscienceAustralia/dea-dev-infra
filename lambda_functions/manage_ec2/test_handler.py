@@ -7,9 +7,9 @@ import boto3
 import os
 
 class TestLambda(TestCase):
-    schedule_tag = 'stopAtNight'
-    schedule_start_time = "07:00"
-    schedule_stop_time = "18:00"
+    schedule_tag = 'myTestTag'
+    schedule_start_time = "08:00"
+    schedule_stop_time = "17:00"
     time_zone = 'Australia/Sydney'
 
     start_time = datetime.strptime(schedule_start_time, '%H:%M').time()
@@ -40,7 +40,7 @@ class TestLambda(TestCase):
                     'ResourceType': 'instance',
                     'Tags': [
                         {
-                            'Key': 'stopAtNight',
+                            'Key': self.schedule_tag,
                             'Value': 'true',
                         },
                     ],
@@ -66,21 +66,21 @@ class TestLambda(TestCase):
                     'ResourceType': 'instance',
                     'Tags': [
                         {
-                            'Key': 'stopAtNight',
+                            'Key': self.schedule_tag,
                             'Value': 'true',
                         },
                     ],
                 },
             ],
         )
-        current_time = datetime.strptime("18:00", '%H:%M').time()
+        current_time = datetime.strptime("22:00", '%H:%M').time()
 
         result = _schedule_start_stop_instances(self.schedule_tag, self.start_time, self.stop_time, current_time)
 
-        assert result == 'starting'
+        assert result == 'stopping'
 
     def test_time_in_range_return_true_if_current_time_in_range(self):
-        current_time = datetime.strptime("07:00", '%H:%M').time()
+        current_time = datetime.strptime("10:00", '%H:%M').time()
 
         result = _time_in_range(self.start_time, self.stop_time, current_time)
 
