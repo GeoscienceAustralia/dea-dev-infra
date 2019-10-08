@@ -31,11 +31,7 @@ before_deploy:
 deploy:
   # Serverless deploy to dev environment after merging to master branch
   - provider: script
-    script:
-      - pwd
-      - cd lambda_functions/manage_ec2/
-      - pwd
-      - serverless deploy -v -s dev
+    script: /bin/bash -c "echo testing"
     skip_cleanup: true  # Don't re-run the tests
     on:
       branch: feature/schedule-start-stop
