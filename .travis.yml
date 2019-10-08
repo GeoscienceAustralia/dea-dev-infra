@@ -31,7 +31,7 @@ before_deploy:
 deploy:
   # Serverless deploy to dev environment after merging to master branch
   - provider: script
-    script: /bin/bash -c "echo testing"
+    script: ./scripts/deploy_manage_ec2.sh
     skip_cleanup: true  # Don't re-run the tests
     on:
       branch: feature/schedule-start-stop
