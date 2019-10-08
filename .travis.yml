@@ -32,7 +32,9 @@ deploy:
   # Serverless deploy to dev environment after merging to master branch
   - provider: script
     script:
-      - cd lambda_functions/manage_ec2/ && npm install
+      - pwd
+      - cd lambda_functions/manage_ec2/
+      - pwd
       - serverless deploy -v -s dev
     skip_cleanup: true  # Don't re-run the tests
     on:
