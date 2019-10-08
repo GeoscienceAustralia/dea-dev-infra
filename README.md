@@ -4,6 +4,11 @@ This git repo manages Digital Earth Australia dev infrastructure
 _It is made up of:_
 - AWS Lambda functions in `lambda_functions/`
 
+## Tech Stack Used
+- python3
+- [venv](https://docs.python.org/3/library/venv.html) - recommended
+- [serverless framework](https://serverless.com/framework/docs/getting-started/)
+
 ## Lambda Functions
 ### manage_ec2:
 **Purpose:** This lambda function schedule - start/stop - tagged EC2 instances.<br/>
