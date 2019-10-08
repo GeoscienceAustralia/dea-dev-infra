@@ -27,7 +27,7 @@ before_deploy:
   - npm --version
 
 deploy:
-  # Serverless deploy to dev environment after merging to production branch
+  # Serverless deploy to dev environment after merging to master branch
   - provider: script
     script:
       - npm install -g serverless
@@ -38,3 +38,5 @@ deploy:
       - cd lambda_functions/manage_ec2/ && npm install
       - serverless deploy -v --stage dev
     skip_cleanup: true  # Don't re-run the tests
+    on:
+      branch: feature/schedule-start-stop
