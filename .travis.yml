@@ -26,7 +26,7 @@ after_success:
 before_deploy:
   - npm --version
 
-deploy_manage_ec2:
+deploy:
   # Serverless deploy to dev environment after merging to production branch
   - provider: script
     script:
@@ -37,5 +37,4 @@ deploy_manage_ec2:
       - serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY --profile devProfile --overwrite
       - cd lambda_functions/manage_ec2/ && npm install
       - serverless deploy -v --stage dev
-
     skip_cleanup: true  # Don't re-run the tests
