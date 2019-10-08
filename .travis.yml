@@ -1,0 +1,37 @@
+dist: xenial
+language: python
+
+python:
+  - "3.7"
+
+sudo: false
+
+git:
+  depth: 99999
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - npm install -g serverless
+  - ./scripts/code_check.sh
+  - serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY --profile devProfile --overwrite
+
+after_success:
+  - codecov
+
+before_deploy:
+  - npm --version
+  - sls --version
+
+deploy:
+  # Serverless deploy to dev environment after merging to master branch
+  - provider: script
+    script: ./scripts/deploy_manage_ec2.sh
+    skip_cleanup: true  # Don't re-run the tests
+    on:
+      branch: master

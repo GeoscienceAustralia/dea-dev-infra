@@ -1,1 +1,20 @@
-.idea/
+venv
+*__pycache__*
+*.pyc
+*.egg-info*
+.pytest_cache
+.cache*
+.idea
+dist
+.terraform
+terraform.tfstate*
+
+# package directories
+node_modules
+jspm_packages
+
+.coverage
+package-lock.json
+
+# Serverless directories
+.serverless

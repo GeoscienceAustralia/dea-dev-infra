@@ -1,0 +1,17 @@
+{
+  "name": "manage-ec2-instance",
+  "version": "1.0.0",
+  "description": "Manage EC2 instance - schedule start-stop",
+  "main": "handler.py",
+  "scripts": {
+    "test": "python3 -m pytest --cov=. "
+  },
+  "author": "Geoscience Australia",
+  "license": "Apache 2",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless-pseudo-parameters": "^2.4.0",
+    "serverless-python-requirements": "^4.3.0"
+  },
+  "keywords": []
+}

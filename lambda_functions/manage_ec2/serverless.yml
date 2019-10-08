@@ -1,0 +1,70 @@
+service: manage-ec2
+
+plugins:
+  - serverless-python-requirements
+  - serverless-pseudo-parameters
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  profiles:
+    dev: devProfile
+
+package:
+  exclude:
+    - node_modules/**
+    - .idea/**
+    - .requirements/**
+    - env/**
+    - README.md
+    - package.json
+    - package-lock.json
+    - requirements.txt
+
+provider:
+  name: aws
+  runtime: python3.7
+  timeout: 60  # 60 seconds. Default is 6 seconds
+  memorySize: 128  # in MB, default is 1024
+  stage: dev
+  profile: ${self:custom.profiles.${self:custom.stage}}
+  region: ap-southeast-2
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "logs:CreateLogGroup"
+        - "logs:CreateLogStream"
+        - "logs:PutLogEvents"
+      Resource: "arn:aws:logs:*:*:*"
+    - Effect: "Allow"
+      Action:
+        - "ec2:Describe*"
+      Resource: "*"
+    - Effect: "Allow"
+      Action:
+        - "ec2:Start*"
+        - "ec2:Stop*"
+      Resource:
+        - "arn:aws:ec2:#{AWS::Region}:#{AWS::AccountId}:instance/*"
+    - Effect: "Allow"
+      Action:
+        - "kms:CreateGrant"
+        - "kms:Encrypt"
+        - "kms:Decrypt"
+        - "kms:ReEncrypt*"
+        - "kms:GenerateDataKey*"
+        - "kms:DescribeKey"
+      Resource:
+        - "arn:aws:kms:#{AWS::Region}:#{AWS::AccountId}:key/*"
+  environment:
+    SCHEDULE_TAG: 'stopAtNight'
+    SCHEDULE_START_TIME: '07:00'
+    SCHEDULE_STOP_TIME: '18:00'
+    TIME_ZONE: 'Australia/Sydney'
+
+functions:
+  EC2Scheduler:
+    handler: handler.handler
+    events:
+      - schedule: cron(3 0/1 ? * MON-FRI *)   # Run at every 3 minutes of every hour Monday through Friday
+# - schedule: cron(0 08 ? * MON-FRI *)  # Run at 6:00pm (Australia/Sydney - GMT+10) every Monday through Friday
+# - schedule: cron(0 22 ? * MON-FRI *)  # Run at 8:00am (Australia/Sydney - GMT+10) every Monday through Friday
