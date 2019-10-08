@@ -25,18 +25,12 @@ after_success:
 
 before_deploy:
   - npm --version
+  - npm install -g serverless
 
 deploy:
   # Serverless deploy to dev environment after merging to master branch
   - provider: script
-    script:
-      - npm install -g serverless
-      # Configure serverless AWS custom profile settings.
-      # AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_DEFAULT_REGION are expected to be
-      # configured in travis project web settings
-      - serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY --profile devProfile --overwrite
-      - cd lambda_functions/manage_ec2/ && npm install
-      - serverless deploy -v --stage dev
+    script: ./script/deploy_manage_ec2.sh
     skip_cleanup: true  # Don't re-run the tests
     on:
       branch: feature/schedule-start-stop
