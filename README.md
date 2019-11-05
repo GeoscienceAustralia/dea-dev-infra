@@ -1,4 +1,6 @@
 # dea-dev-infra
+[![Build Status](https://travis-ci.com/GeoscienceAustralia/dea-dev-infra.svg?branch=master)](https://travis-ci.com/GeoscienceAustralia/dea-dev-infra)
+
 This git repo manages Digital Earth Australia dev infrastructure
 
 _It is made up of:_
