@@ -19,6 +19,7 @@ package:
     - package.json
     - package-lock.json
     - requirements.txt
+    - test_*.py
 
 provider:
   name: aws
