@@ -98,13 +98,21 @@ class TestLambda(TestCase):
     def test_date_in_range_return_true_if_selected_date_in_christmas_shutdown_range(self):
         selected_date = datetime.strptime('4/1/2022', '%d/%m/%Y')
 
-        result = _time_in_range(datetime.strptime(self.christmas_shutdown_startday, "%d/%m/%Y"), datetime.strptime(self.christmas_shutdown_lastday, "%d/%m/%Y"), selected_date)
+        result = _time_in_range(
+            datetime.strptime(self.christmas_shutdown_startday, "%d/%m/%Y"),
+            datetime.strptime(self.christmas_shutdown_lastday, "%d/%m/%Y"),
+            selected_date
+        )
 
         assert result == True
 
     def test_date_in_range_return_false_if_selected_date_out_of_christmas_shutdown_range(self):
         selected_date = datetime.strptime('5/1/2022', '%d/%m/%Y')
 
-        result = _time_in_range(datetime.strptime(self.christmas_shutdown_startday, "%d/%m/%Y"), datetime.strptime(self.christmas_shutdown_lastday, "%d/%m/%Y"), selected_date)
+        result = _time_in_range(
+            datetime.strptime(self.christmas_shutdown_startday, "%d/%m/%Y"),
+            datetime.strptime(self.christmas_shutdown_lastday, "%d/%m/%Y"),
+            selected_date
+        )
 
         assert result == False
