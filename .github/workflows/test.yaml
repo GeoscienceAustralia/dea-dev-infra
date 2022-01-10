@@ -19,5 +19,5 @@ jobs:
           pip install -r requirements.txt
       - name: Run Tests
         run: |
-          export PYTHONPATH=$PYTHONPATH:/home/runner/work/dea-dev-infra/lambda_functions
+          export PYTHONPATH=$PYTHONPATH:/home/runner/work/dea-dev-infra/dea-dev-infra/lambda_functions
           python -m unittest lambda_functions/manage_ec2/test_handler.py
