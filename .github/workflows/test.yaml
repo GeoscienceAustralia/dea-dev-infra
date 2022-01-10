@@ -1,0 +1,30 @@
+name: Unit Test
+
+on:
+  push:
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - master
+
+jobs:
+  on_build_actions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          cd $GITHUB_WORKSPACE
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Tests
+        run: |
+          export SCHEDULE_TAG='stopAtNight'
+          export SCHEDULE_START_TIME='07:00'
+          export SCHEDULE_STOP_TIME='19:00'
+          export TIME_ZONE='Australia/Sydney'
+          export CHRISTMAS_STANDDOWN_END='4/1/2022'
+          export CHRISTMAS_STANDDOWN_START='25/12/2021'
+
+          export PYTHONPATH=$PYTHONPATH:/home/runner/work/dea-dev-infra/dea-dev-infra/lambda_functions/manage_ec2
+          python -m unittest lambda_functions/manage_ec2/test_handler.py
