@@ -11,6 +11,8 @@ class TestLambda(TestCase):
     schedule_start_time = "08:00"
     schedule_stop_time = "17:00"
     time_zone = 'Australia/Sydney'
+    christmas_shutdown_startday = '25/12/2021'
+    christmas_shutdown_lastday = '04/01/2022'
 
     start_time = datetime.strptime(schedule_start_time, '%H:%M').time()
     stop_time = datetime.strptime(schedule_stop_time, '%H:%M').time()
@@ -90,5 +92,19 @@ class TestLambda(TestCase):
         current_time = datetime.strptime("19:00", '%H:%M').time()
 
         result = _time_in_range(self.start_time, self.stop_time, current_time)
+
+        assert result == False
+
+    def test_date_in_range_return_true_if_selected_date_in_christmas_shutdown_range(self):
+        selected_date = datetime.strptime('4/1/2022', '%d/%m/%Y')
+
+        result = _time_in_range(datetime.strptime(self.christmas_shutdown_startday, "%d/%m/%Y"), datetime.strptime(self.christmas_shutdown_lastday, "%d/%m/%Y"), selected_date)
+
+        assert result == True
+
+    def test_date_in_range_return_false_if_selected_date_out_of_christmas_shutdown_range(self):
+        selected_date = datetime.strptime('5/1/2022', '%d/%m/%Y')
+
+        result = _time_in_range(datetime.strptime(self.christmas_shutdown_startday, "%d/%m/%Y"), datetime.strptime(self.christmas_shutdown_lastday, "%d/%m/%Y"), selected_date)
 
         assert result == False

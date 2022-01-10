@@ -73,4 +73,8 @@ def handler(event, context):
 
     schedule_tag = os.getenv('SCHEDULE_TAG')
 
-    _schedule_start_stop_instances(schedule_tag, start_time, stop_time, now)
+    christmas_shutdown_startday = datetime.strptime(os.getenv('CHRISTMAS_STANDDOWN_START'), "%d/%m/%Y")
+    christmas_shutdown_lastday = datetime.strptime(os.getenv('CHRISTMAS_STANDDOWN_END'), "%d/%m/%Y")
+
+    if not christmas_shutdown_startday <= datetime.now() <= christmas_shutdown_lastday:
+        _schedule_start_stop_instances(schedule_tag, start_time, stop_time, now)

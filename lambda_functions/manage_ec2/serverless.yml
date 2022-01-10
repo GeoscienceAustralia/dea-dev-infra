@@ -61,6 +61,8 @@ provider:
     SCHEDULE_START_TIME: '07:00'
     SCHEDULE_STOP_TIME: '19:00'
     TIME_ZONE: 'Australia/Sydney'
+    CHRISTMAS_STANDDOWN_END: '4/1/2022'
+    CHRISTMAS_STANDDOWN_START: '25/12/2021'
 
 functions:
   EC2Scheduler:
