@@ -68,6 +68,8 @@ functions:
   EC2Scheduler:
     handler: handler.handler
     events:
-      - schedule: cron(3 21 ? * SUN-THU *)  # Run at 7:03am (Australia/Sydney - GMT+10) every Monday through Friday
-      - schedule: cron(3 09 ? * MON-FRI *)  # Run at 7:03pm (Australia/Sydney - GMT+10) every Monday through Friday
+      - schedule: cron(3 21 ? * SUN-THU *)  # Run at 7:03am AEST (GMT+10) every Monday through Friday
+      - schedule: cron(3 09 ? * MON-FRI *)  # Run at 7:03pm AEST (GMT+10) every Monday through Friday
+      - schedule: cron(3 20 ? * SUN-THU *)  # Also run an hour earlier (7:03am/pm AEDT, GMT+11)
+      - schedule: cron(3 08 ? * MON-FRI *)  #
 # - schedule: cron(3 0/1 ? * MON-FRI *)   # Run at every 3 minutes of every hour Monday through Friday
